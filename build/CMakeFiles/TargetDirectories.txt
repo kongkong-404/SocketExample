@@ -1,4 +1,0 @@
-/home/kongkong/SocketExample/build/CMakeFiles/server.dir
-/home/kongkong/SocketExample/build/CMakeFiles/client.dir
-/home/kongkong/SocketExample/build/CMakeFiles/edit_cache.dir
-/home/kongkong/SocketExample/build/CMakeFiles/rebuild_cache.dir
