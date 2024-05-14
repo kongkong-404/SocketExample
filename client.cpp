@@ -8,35 +8,42 @@
 #include <string>
 #include <cstring>
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 
-    if (argc != 7) {
-        std::cerr << "Usage: " << argv[0] << " -h <主机IP> -p <端口号> -m <消息>\n";
-        return -1;
-    }
-
-    std::string host;
-    int port;
+    std::string host = "127.0.0.1";
+    int port = 8080;
     std::string message;
 
     int sock = 0;
     struct sockaddr_in serv_addr;
-
     char buffer[1024] = {0};
 
-
-    for (int i = 1; i < argc; i += 2) {
-        if (std::string(argv[i]) == "-h") {
+    for (int i = 1; i < argc; i += 2)
+    {
+        if (std::string(argv[i]) == "-h")
+        {
             host = argv[i + 1];
-        } else if (std::string(argv[i]) == "-p") {
+        }
+        else if (std::string(argv[i]) == "-p")
+        {
             port = std::atoi(argv[i + 1]);
-        } else if (std::string(argv[i]) == "-m") {
+        }
+        else if (std::string(argv[i]) == "-m")
+        {
             message = argv[i + 1];
         }
     }
 
+    if (message.empty())
+    {
+        std::cerr << "Usage: " << argv[0] << " -h <主机IP> -p <端口号> -m <消息> or -m <消息> 默认<127.0.0.1:8080>\n";
+        return -1;
+    }
+
     // 创建 socket
-    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    {
         std::cerr << "Socket creation error" << std::endl;
         close(sock);
         return -1;
@@ -46,14 +53,16 @@ int main(int argc, char *argv[]) {
     serv_addr.sin_port = htons(port);
 
     // 将 IPv4 地址从点分十进制转换为二进制格式
-    if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0) {
+    if (inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0)
+    {
         std::cerr << "Invalid address/ Address not supported" << std::endl;
         close(sock);
         return -1;
     }
 
     // 连接到服务器
-    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
+    {
         std::cerr << "Connection Failed" << std::endl;
         close(sock);
         return -1;
@@ -72,4 +81,3 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
-
